@@ -12,7 +12,12 @@ class Addview(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors) 
+    
 
+    def get(self, request, *args, **kwargs):
+        value = Todos.objects.all()
+        serializer = Todosserializers(value, many = True)
+        return Response(serializer.data)
 
 class Crud(APIView):
     def get(self, request, id):
