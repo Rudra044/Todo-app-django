@@ -1,9 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
 from .models import Todos
 from .serializers import Todosserializers
-# Create your views here.
 
 
 class Addview(APIView):
@@ -68,15 +68,15 @@ class Multipleoperation(APIView):
                     todos_serializer = Todosserializers(data=data)
                     if todos_serializer.is_valid():
                         todos_serializer.save()
-                        response_data.append({'result': f'{method.capitalize()} operation successful'})
+                        response_data.append({'result': 'Create operation successful'})
                     else:
                         response_data.append({'error': todos_serializer.errors})
                 elif method == 'read':
-                    todo = Todos.objects.get(pk=todo_id)
+                    todo = Todos.objects.get(id=todo_id)
                     todos_data = Todosserializers(todo).data
-                    response_data.append({'result': 'Read operation successful', **todos_data})
+                    response_data.append({'result': 'Read operation successful', todos_data: todos_data})
                 elif method == 'update':
-                    todo = Todos.objects.get(pk=todo_id)
+                    todo = Todos.objects.get(id=todo_id)
                     todos_serializer = Todosserializers(instance=todo, data=data, partial=True)
                     if todos_serializer.is_valid():
                         todos_serializer.save()
@@ -84,11 +84,10 @@ class Multipleoperation(APIView):
                     else:
                         response_data.append({'error': todos_serializer.errors})
                 elif method == 'delete':
-                    todo = Todos.objects.get(pk=todo_id)
+                    todo = Todos.objects.get(id=todo_id)
                     todo.delete()
                     response_data.append({'result': 'Delete operation successful'})
             except Todos.DoesNotExist:
                 response_data.append({'error': 'Todo not found'})
 
-        return response_data
-    
+        return (response_data)
