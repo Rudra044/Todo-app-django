@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from .views import Multipleoperation
+from app.views import Multipleoperation
 import json
 
 
